@@ -19,13 +19,14 @@ public class JpaMain {
             member.setAge(10);
             em.persist(member);
 
-            TypedQuery<Member> query = em.createQuery("select m from Member m where m.username = :username", Member.class);
-            query.setParameter("username", "member1");
-            List<Member> resultList = query.getResultList();
-            for (Member member1 : resultList) {
-                System.out.println("member1.getUsername; = " + member1.getUsername());
-            }
+            em.flush();
+            em.clear();
 
+            List<MemberDTO> resultList = em.createQuery(
+                    "select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
+                    .getResultList();
+
+            MemberDTO memberDTO = resultList.get(0);
 
 
             tx.commit();
