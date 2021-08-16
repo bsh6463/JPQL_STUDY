@@ -42,11 +42,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            List<Member> username = em.createNamedQuery("Member.findByUserName", Member.class)
-                    .setParameter("username", "회원1")
-                    .getResultList();
+            //이시점에 FLUSH 호출됨.
+            int resultCount = em.createQuery("update Member m set m.age = 20")
+                    .executeUpdate();
+            em.clear();
 
-
+            System.out.println("resultCount = " + resultCount);
 
             tx.commit();
 
