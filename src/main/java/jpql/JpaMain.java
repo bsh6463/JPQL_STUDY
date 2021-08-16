@@ -42,21 +42,10 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select distinct t From Team t";
-
-            List<Team> resultList = em.createQuery(query, Team.class)
-                    .setFirstResult(0).setMaxResults(2)
+            List<Member> username = em.createNamedQuery("Member.findByUserName", Member.class)
+                    .setParameter("username", "회원1")
                     .getResultList();
 
-            System.out.println("resultList.size() = " + resultList.size());
-            for (Team team : resultList) {
-                System.out.println("team.getName() = " + team.getName()+"  team.getMembers().size() : " + team.getMembers().size());
-
-                for(Member member : team.getMembers()){
-                    System.out.println("--> member = " + member);
-                }
-
-            }
 
 
             tx.commit();
