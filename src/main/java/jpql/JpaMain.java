@@ -31,10 +31,10 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select nullif(m.username, '관리자') from Member m ";
-            List<String> resultList = em.createQuery(query, String.class).getResultList();
+            String query = "select size(t.members) from Team t ";
+            List<Integer> resultList = em.createQuery(query, Integer.class).getResultList();
 
-            for (String s : resultList) {
+            for (Integer s : resultList) {
                 System.out.println("s = " + s);
             }
 
