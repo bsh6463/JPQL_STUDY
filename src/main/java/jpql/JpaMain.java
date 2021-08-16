@@ -17,7 +17,8 @@ public class JpaMain {
 
                 Member member =  new Member();
                 member.setAge(10);
-                member.setUsername("team");
+                member.setUsername("관리자");
+                member.setType(MemberType.ADMIN);
 
                 Team team  = new Team();
                 team.setName("team");
@@ -30,15 +31,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            //member 와 team을 inner join함. 이제 team을 쓸 수 있음.
-            String query = "select m from Member m left outer join Team t on m.username = t.name";
+            String query = "select nullif(m.username, '관리자') from Member m ";
+            List<String> resultList = em.createQuery(query, String.class).getResultList();
 
-            List<Member> resultList = em.createQuery(query, Member.class)
-                    .getResultList();
-
-            System.out.println("resultList.size() = " + resultList.size());
-            for (Member member1 : resultList) {
-                System.out.println("member1.toString() = " + member1.toString());
+            for (String s : resultList) {
+                System.out.println("s = " + s);
             }
 
 
