@@ -15,18 +15,25 @@ public class JpaMain {
 
         try{
 
-            for(int i = 0; i < 100 ; i++){
                 Member member =  new Member();
-                member.setAge(i);
-                member.setUsername("member" + i);
+                member.setAge(10);
+                member.setUsername("team");
+
+                Team team  = new Team();
+                team.setName("team");
+                em.persist(team);
+
+                member.changeTeam(team);
                 em.persist(member);
-            }
+
 
             em.flush();
             em.clear();
 
-            List<Member> resultList = em.createQuery("select m from Member m order by m.age desc", Member.class)
-                    .setFirstResult(2).setMaxResults(10)
+            //member 와 team을 inner join함. 이제 team을 쓸 수 있음.
+            String query = "select m from Member m left outer join Team t on m.username = t.name";
+
+            List<Member> resultList = em.createQuery(query, Member.class)
                     .getResultList();
 
             System.out.println("resultList.size() = " + resultList.size());

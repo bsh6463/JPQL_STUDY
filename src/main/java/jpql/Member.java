@@ -38,6 +38,14 @@ public class Member {
         this.age = age;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Override
     public String toString() {
         return "Member{" +
@@ -45,5 +53,11 @@ public class Member {
                 ", username='" + username + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public void changeTeam(Team team){
+        this.team = team;
+        this.setTeam(team);
+        team.getMembers().add(this);
     }
 }
